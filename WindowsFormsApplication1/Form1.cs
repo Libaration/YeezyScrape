@@ -76,11 +76,21 @@ namespace WindowsFormsApplication1
 
                         string link = ("http://www.lolsummoners.com/ladders/" + cmbServerMetro.Text + "/") + i.ToString();
 
+                        try
+                        {
+                            htmlloop = web.DownloadString(link);
+                            sortUsers(htmlloop);
 
-                        htmlloop = web.DownloadString(link);
-                        sortUsers(htmlloop);
-
-                        progbarMetro.Value = i;
+                            progbarMetro.Value = i;
+                        }
+                        catch (WebException webEx)
+                        {
+                            if (webEx.Status == WebExceptionStatus.ProtocolError)
+                            {
+                                MetroMessageBox.Show(this, "Page numbers don't exist", "YeezyScrape - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            
+                        }
                     }
                     btnScrapeMetro.Enabled = true;
                     progbarMetro.Visible = false;
