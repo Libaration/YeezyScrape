@@ -127,7 +127,7 @@ namespace WindowsFormsApplication1
             StreamWriter SaveFile = new System.IO.StreamWriter(savePath);
 
 
-            if (chkUserPass.Checked == true & chkCommonMetro.Checked == true)
+            if (chkUserPassMetro.Checked == true & chkCommonMetro.Checked == true)
             {
                 foreach (var item in listUsers.Items)
                 {
@@ -150,7 +150,7 @@ namespace WindowsFormsApplication1
                 }
             }
 
-            if (chkUserPass.Checked == false & chkCommonMetro.Checked == false)
+            if (chkUserPassMetro.Checked == false & chkCommonMetro.Checked == false)
             {
                 foreach (var item in listUsers.Items)
                 {
@@ -161,7 +161,7 @@ namespace WindowsFormsApplication1
 
 
 
-            if (chkUserPass.Checked == true & chkCommonMetro.Checked == false)
+            if (chkUserPassMetro.Checked == true & chkCommonMetro.Checked == false)
             {
                 foreach (var item in listUsers.Items)
                 {
@@ -170,7 +170,7 @@ namespace WindowsFormsApplication1
                 }
             }
 
-            if (chkUserPass.Checked == false & chkCommonMetro.Checked == true)
+            if (chkUserPassMetro.Checked == false & chkCommonMetro.Checked == true)
             {
                 foreach (var item in listUsers.Items)
                 {
