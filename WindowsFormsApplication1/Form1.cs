@@ -12,6 +12,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.IO;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using MetroFramework;
 using MetroFramework.Forms;
@@ -67,30 +68,31 @@ namespace WindowsFormsApplication1
                 }
                 else
                 {
-                    for (int i = Convert.ToInt32(pageNum1.Value); i < pageNum2.Value; i++)
+
+                    try
                     {
+                        int pageNum1int = Convert.ToInt32(pageNum1.Value);
+                        int pageNum2int = Convert.ToInt32(pageNum2.Value);
 
-                        btnScrapeMetro.Enabled = false;
-                        progbarMetro.Maximum = Convert.ToInt32(pageNum2.Value) - 1;
-                        
-
-                        string link = ("http://www.lolsummoners.com/ladders/" + cmbServerMetro.Text + "/") + i.ToString();
-
-                        try
+                    }
+                    catch
+                    {
+                        MetroMessageBox.Show(this, "Numbers too big", "YeezyScrape - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                       
+                    }
+                        for (int i = Convert.ToInt32(pageNum1.Value); i < pageNum2.Value; i++)
                         {
+
+                            btnScrapeMetro.Enabled = false;
+                            progbarMetro.Maximum = Convert.ToInt32(pageNum2.Value) - 1;
+
+                            string link = ("http://www.lolsummoners.com/ladders/" + cmbServerMetro.Text + "/") +
+                                          i.ToString();
                             htmlloop = web.DownloadString(link);
                             sortUsers(htmlloop);
 
                             progbarMetro.Value = i;
-                        }
-                        catch (WebException webEx)
-                        {
-                            if (webEx.Status == WebExceptionStatus.ProtocolError)
-                            {
-                                MetroMessageBox.Show(this, "Page numbers don't exist", "YeezyScrape - Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                            
-                        }
+
                     }
                     btnScrapeMetro.Enabled = true;
                     progbarMetro.Visible = false;
@@ -109,13 +111,21 @@ namespace WindowsFormsApplication1
             {
 
                 usersloop = m.Groups[1].Value;
-                users.Add(usersloop);
-                listUsers.Items.Add(usersloop);
-                
-                
-                updateStatus();
+
+                bool hasspace = usersloop.Contains(" ");
+
+                if (hasspace == false)
+                {
+                    users.Add(usersloop);
+                    listUsers.Items.Add(usersloop);
+
+
+                    updateStatus();
+                }
+              
                
             }
+
             
         }
 
